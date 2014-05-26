@@ -1,25 +1,31 @@
 package com.tbse.datastructures;
 
-import android.app.Activity;
-
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.support.v4.widget.DrawerLayout;
-import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.io.File;
+import java.io.FileReader;
+
 import com.tbse.datastructures.binary_search_tree.BSTNode;
+import com.tbse.datastructures.threads.MyThread;
+import com.tbse.datastructures.threads.ThreadPractice;
+import com.tbse.datastructures.threads.ThreadRacer;
+import com.tbse.datastructures.threads.ThreadSum;
+
+import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Random;
 
 
 public class MainActivity extends Activity
@@ -49,8 +55,51 @@ public class MainActivity extends Activity
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
 
+        ////////////////////
+        ////////////////////
+        ////////////////////
+        ////////////////////
 
-        BSTNode myNode = new BSTNode();
+        BSTNode myNode = new BSTNode(10);
+
+        Random generator = new Random();
+        for (int i=0; i<10; i++) {
+            int b = generator.nextInt(10);
+            Log.d("ds", "inserting " + b);
+            myNode.insert(b);
+        }
+
+        Log.d("ds", "breadthFirst");
+        BSTNode.nodes = new ArrayDeque<BSTNode>();
+        myNode.breadthTraverse();
+
+        Log.d("ds", "depthFirst");
+        BSTNode.nodes = new ArrayDeque<BSTNode>();
+        myNode.depthTraverse();
+
+        Log.d("ds", "min");
+        Log.d("ds", "" + myNode.getMin().data);
+
+        Log.d("ds", "search for 4: " + myNode.search(4));
+
+        File file = new File("BSTNode.java");
+        // creates the file
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        TextView output = (TextView) findViewById(R.id.output);
+        output.setText(file.toString());
+
+        // ThreadRacer.run();
+//        ThreadSum.main();
+
+
+
+
+
 
 
 
@@ -72,10 +121,10 @@ public class MainActivity extends Activity
                 mTitle = getString(R.string.binary_search_tree);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.heap_and_stack);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.threads);
                 break;
         }
     }
